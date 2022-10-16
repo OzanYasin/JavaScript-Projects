@@ -5,10 +5,21 @@ class Timer {
     this.pauseButton = pauseButton;
 
     this.startButton.addEventListener('click', this.start);
+    this.pauseButton.addEventListener('click', this.pause);
   }
-  start() {
-    console.log('Timer start');
-  }
+  start = () => {
+    this.tick();
+    this.interval = setInterval(this.tick, 1000);
+  };
+
+  pause = () => {
+    clearInterval(this.interval);
+  };
+
+  tick = () => {
+    const timeRemaining = this.durationInput.value;
+    this.durationInput.value = timeRemaining - 1;
+  };
 }
 
 const durationInput = document.querySelector('#duration');
@@ -16,3 +27,5 @@ const startButton = document.querySelector('#start');
 const pauseButton = document.querySelector('#pause');
 
 const timer = new Timer(durationInput, startButton, pauseButton);
+
+// In order to share information between different methods, we assign that information to an instance variable.
