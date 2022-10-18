@@ -16,11 +16,12 @@ class Timer {
 
   start = () => {
     if (this.onStart) {
-      this.onStart();
+      // We need to track totalDuration
+      this.onStart(this.timeRemaining);
     }
     this.tick();
     // In order to share information between different methods, we assign that information to an instance variable.
-    this.interval = setInterval(this.tick, 1000);
+    this.interval = setInterval(this.tick, 10);
   };
 
   pause = () => {
@@ -35,9 +36,9 @@ class Timer {
       this.pause();
     } else {
       // Left side sets timeRemaining, while right side gets the timeRemaining
-      this.timeRemaining = this.timeRemaining - 1;
+      this.timeRemaining = this.timeRemaining - 0.01;
       if (this.onTick) {
-        this.onTick();
+        this.onTick(this.timeRemaining);
       }
     }
   };
@@ -47,6 +48,6 @@ class Timer {
   }
 
   set timeRemaining(time) {
-    this.durationInput.value = time;
+    this.durationInput.value = time.toFixed(2);
   }
 }
