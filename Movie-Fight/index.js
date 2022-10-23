@@ -17,20 +17,34 @@ const fetchData = async (searchTerm) => {
   return response.data.Search;
 };
 
+const root = document.querySelector('.autocomplete');
+root.innerHTML = `
+  <label><b>Search for a Movie</b></label>
+  <input class="input" />
+  <div class="dropdown">
+    <div class="dropdown-menu">
+      <div class="dropdown-content results"></div>
+    </div>
+  </div>
+`;
+
 const input = document.querySelector('input');
+const dropdown = document.querySelector('.dropdown');
+const resultsWrapper = document.querySelector('.results');
 
 const onInput = async (event) => {
   const movies = await fetchData(event.target.value);
   // console.log(movies);
+  dropdown.classList.add('is-active');
   for (let movie of movies) {
-    const div = document.createElement('div');
+    const anchor = document.createElement('a');
+    anchor.classList.add('dropdown-item');
 
-    div.innerHTML = `
+    anchor.innerHTML = `
       <h1>${movie.Title}</h1>
       <img src="${movie.Poster}" />
     `;
-
-    document.querySelector('#target').appendChild(div);
+    resultsWrapper.appendChild(anchor);
   }
 };
 
