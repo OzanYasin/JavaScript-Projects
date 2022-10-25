@@ -36,16 +36,25 @@ const onInput = async (event) => {
   const movies = await fetchData(event.target.value);
   // console.log(movies);
   dropdown.classList.add('is-active');
+  resultsWrapper.innerHTML = '';
   for (let movie of movies) {
     const anchor = document.createElement('a');
-    anchor.classList.add('dropdown-item');
+    const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
 
+    anchor.classList.add('dropdown-item');
     anchor.innerHTML = `
-      <h1>${movie.Title}</h1>
-      <img src="${movie.Poster}" />
+    <img src="${imgSrc}" />
+    ${movie.Title}
     `;
     resultsWrapper.appendChild(anchor);
   }
 };
 
 input.addEventListener('input', debounce(onInput, 500));
+
+// Events bubble, which means if some element contained inside the document, and if it does not handled, then the event is going to essentially bubble up until it gets to the top level of our entire HTML document. In this case, its document
+document.addEventListener('click', (event) => {
+  if (!root.contains(event.target)) {
+    dropdown.classList.remove('is-active');
+  }
+});
