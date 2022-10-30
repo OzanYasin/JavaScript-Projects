@@ -46,6 +46,8 @@ createAutoComplete({
   },
 });
 
+let leftMovie;
+let rightMovie;
 const onMovieSelect = async (movie, targetElement, side) => {
   const response = await axios.get('http://www.omdbapi.com', {
     params: {
@@ -53,7 +55,7 @@ const onMovieSelect = async (movie, targetElement, side) => {
       i: movie.imdbID,
     },
   });
-
+  console.log(response.data);
   targetElement.innerHTML = movieTemplate(response.data);
 
   if (side === 'left') {

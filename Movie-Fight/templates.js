@@ -1,4 +1,23 @@
 const movieTemplate = (movieDetail) => {
+  const dollars = parseInt(
+    movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, '')
+  );
+  const metaScore = parseInt(movieDetail.Metascore);
+  const imdbRating = parseFloat(movieDetail.imdbRating);
+  const imdbVote = parseInt(movieDetail.imdbVotes.replace(/,/g, ''));
+
+  const awards = movieDetail.Awards.split(' ').reduce((totalAwards, word) => {
+    const value = parseInt(word);
+
+    if (isNaN(value)) {
+      return totalAwards;
+    } else {
+      return totalAwards + value;
+    }
+  }, 0);
+
+  console.log(awards);
+
   return `
   <article class="media">
     <figure class="media-left">
