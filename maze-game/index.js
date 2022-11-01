@@ -30,8 +30,14 @@ Render.run(render);
 // The runner is what coordinates all these changes from state A to state B of our engine.
 Runner.run(Runner.create(), engine);
 
-const shape = Bodies.rectangle(200, 200, 50, 50, {
-  isStatic: true,
-});
+// Walls
+const walls = [
+  Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
+  Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
+  Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
+  Bodies.rectangle(800, 300, 40, 600, { isStatic: true }),
+];
 
-World.add(world, shape);
+World.add(world, walls);
+
+World.add(world, Bodies.rectangle(200, 200, 50, 50));
