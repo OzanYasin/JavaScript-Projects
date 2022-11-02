@@ -13,10 +13,9 @@
 // * Render *   Whenever the engine process an update, Render will take a look at all the different shapes and show them on the screen.
 // * Body *     A shape that we are displaying. Can be a circle, rectangle, oval, etc.
 
-const { World, Engine, Runner, Render, Bodies, MouseConstraint, Mouse } =
-  Matter;
+const { World, Engine, Runner, Render, Bodies } = Matter;
 
-const width = 800;
+const width = 600;
 const height = 600;
 
 const engine = Engine.create();
@@ -35,38 +34,15 @@ Render.run(render);
 // The runner is what coordinates all these changes from state A to state B of our engine.
 Runner.run(Runner.create(), engine);
 
-World.add(
-  world,
-  MouseConstraint.create(engine, {
-    mouse: Mouse.create(render.canvas),
-  })
-);
-
 // Walls
 const walls = [
-  Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
-  Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
-  Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
-  Bodies.rectangle(800, 300, 40, 600, { isStatic: true }),
+  Bodies.rectangle(width / 2, 0, width, 40, { isStatic: true }),
+  Bodies.rectangle(width / 2, height, width, 40, { isStatic: true }),
+  Bodies.rectangle(0, height / 2, 40, height, { isStatic: true }),
+  Bodies.rectangle(width, height / 2, 40, height, { isStatic: true }),
 ];
 
 World.add(world, walls);
-
-// Random Shapes
-
-for (let i = 0; i < 40; i++) {
-  if (Math.random() > 0.5) {
-    World.add(
-      world,
-      Bodies.rectangle(Math.random() * width, Math.random() * height, 50, 50)
-    );
-  } else {
-    World.add(
-      world,
-      Bodies.circle(Math.random() * width, Math.random() * height, 35)
-    );
-  }
-}
 
 // Building a Maze
 
