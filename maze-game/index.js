@@ -26,6 +26,7 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
+    wireframes: false,
     width,
     height,
   },
@@ -53,4 +54,25 @@ World.add(world, walls);
 
 // Random Shapes
 
-World.add(world, Bodies.rectangle(200, 200, 50, 50));
+for (let i = 0; i < 40; i++) {
+  if (Math.random() > 0.5) {
+    World.add(
+      world,
+      Bodies.rectangle(Math.random() * width, Math.random() * height, 50, 50)
+    );
+  } else {
+    World.add(
+      world,
+      Bodies.circle(Math.random() * width, Math.random() * height, 35)
+    );
+  }
+}
+
+// Building a Maze
+
+//* Create a grid of 'cells'
+//* Pick a random starting cell
+//* For that cell, build a randomly-ordered list of neighbors
+//* If a neighbor has been visited before, remove it from the list
+//* For each remaining neighbor, 'move' to it and remove the wall between those two cells
+//* Repeat for this new neighbor
