@@ -15,6 +15,7 @@
 
 const { World, Engine, Runner, Render, Bodies } = Matter;
 
+const cells = 3;
 const width = 600;
 const height = 600;
 
@@ -55,24 +56,27 @@ World.add(world, walls);
 
 // Maze Generation
 
-const grid = Array(3) // if we ever wanted to add more row, change that value
+const grid = Array(cells) // if we ever wanted to add more row, change that value
   .fill(null)
-  .map(() => Array(3).fill(false)); // if we ever wanted to add more columns, change that value
+  .map(() => Array(cells).fill(false)); // if we ever wanted to add more columns, change that value
 
 // verticals
 // [[false, false][(false, false)][(false, false)]];
 
-const verticals = Array(3)
+const verticals = Array(cells)
   .fill(null)
-  .map(() => Array(2).fill(false));
+  .map(() => Array(cells - 1).fill(false));
 
 // horizontals
 // [[false, false, false][(false, false, false)]];
 
-const horizontals = Array(2)
+const horizontals = Array(cells - 1)
   .fill(null)
-  .map(() => Array(3).fill(false));
+  .map(() => Array(cells).fill(false));
 
 console.log(grid);
 console.log(verticals);
 console.log(horizontals);
+
+const startRow = Math.floor(Math.random() * cells);
+const startColumn = Math.floor(Math.random() * cells);
