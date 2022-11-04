@@ -56,6 +56,22 @@ World.add(world, walls);
 
 // Maze Generation
 
+const shuffle = (arr) => {
+  let counter = arr.length;
+
+  while (counter > 0) {
+    const index = Math.floor(Math.random() * counter);
+
+    counter--;
+
+    const temp = arr[counter];
+    arr[counter] = arr[index];
+    arr[index] = temp;
+  }
+
+  return arr;
+};
+
 const grid = Array(cells) // if we ever wanted to add more row, change that value
   .fill(null)
   .map(() => Array(cells).fill(false)); // if we ever wanted to add more columns, change that value
@@ -87,12 +103,13 @@ const recurse = (row, column) => {
   grid[row][column] = true;
 
   // Assemble randomly-ordered list of neighbors
-  const neighbors = [
+  const neighbors = shuffle([
     [row - 1, column],
     [row + 1, column],
     [row, column - 1],
     [row, column + 1],
-  ];
+  ]);
+  console.log(neighbors);
 
   // For each neighbor...
 
@@ -105,6 +122,5 @@ const recurse = (row, column) => {
   // Visit that next cell
 };
 
-recurse(startRow, startColumn);
-
-console.log(grid);
+recurse(1, 1);
+// console.log(grid);
