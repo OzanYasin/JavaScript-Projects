@@ -104,20 +104,31 @@ const recurse = (row, column) => {
 
   // Assemble randomly-ordered list of neighbors
   const neighbors = shuffle([
-    [row - 1, column],
-    [row + 1, column],
-    [row, column - 1],
-    [row, column + 1],
+    [row - 1, column, 'up'],
+    [row + 1, column, 'down'],
+    [row, column - 1, 'left'],
+    [row, column + 1, 'right'],
   ]);
   console.log(neighbors);
 
   // For each neighbor...
+  for (let neighbor of neighbors) {
+    const [nextRow, nextColumn, direction] = neighbor;
+    // Check if that neighbor is out of bounds
+    if (
+      nextRow < 0 ||
+      nextRow > cells ||
+      nextColumn < 0 ||
+      nextColumn > cells
+    ) {
+      // continue key word means don't leave this for loop, just don't do anything else current iteration of the current step.
+      continue;
+    }
 
-  // Check if that neighbor is out of bounds
+    // If we have visited that neighbor, continue to next neighbor
 
-  // If we have visited that neighbor, continue to next neighbor
-
-  // Remove a wall from either horizontals or verticals array
+    // Remove a wall from either horizontals or verticals array
+  }
 
   // Visit that next cell
 };
