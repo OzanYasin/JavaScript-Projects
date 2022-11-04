@@ -52,3 +52,27 @@ World.add(world, walls);
 //* If a neighbor has been visited before, remove it from the list
 //* For each remaining neighbor, 'move' to it and remove the wall between those two cells
 //* Repeat for this new neighbor
+
+// Maze Generation
+
+const grid = Array(3) // if we ever wanted to add more row, change that value
+  .fill(null)
+  .map(() => Array(3).fill(false)); // if we ever wanted to add more columns, change that value
+
+// verticals
+// [[false, false][(false, false)][(false, false)]];
+
+const verticals = Array(3)
+  .fill(null)
+  .map(() => Array(2).fill(false));
+
+// horizontals
+// [[false, false, false][(false, false, false)]];
+
+const horizontals = Array(2)
+  .fill(null)
+  .map(() => Array(3).fill(false));
+
+console.log(grid);
+console.log(verticals);
+console.log(horizontals);
