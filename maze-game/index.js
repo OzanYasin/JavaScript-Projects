@@ -61,7 +61,7 @@ const shuffle = (arr) => {
 
   while (counter > 0) {
     const index = Math.floor(Math.random() * counter);
-    console.log(index);
+
     counter--;
     // console.log(counter);
     const temp = arr[counter];
@@ -109,7 +109,7 @@ const recurse = (row, column) => {
     [row, column - 1, 'left'],
     [row, column + 1, 'right'],
   ]);
-  console.log(neighbors);
+  // console.log(neighbors);
 
   // For each neighbor...
   for (let neighbor of neighbors) {
@@ -117,9 +117,9 @@ const recurse = (row, column) => {
     // Check if that neighbor is out of bounds
     if (
       nextRow < 0 ||
-      nextRow > cells ||
+      nextRow >= cells ||
       nextColumn < 0 ||
-      nextColumn > cells
+      nextColumn >= cells
     ) {
       // continue key word means don't leave this for loop, just don't do anything else current iteration of the current step.
       continue;
@@ -135,10 +135,15 @@ const recurse = (row, column) => {
       verticals[row][column - 1] = true;
     } else if (direction === 'right') {
       verticals[row][column] = true;
+    } else if (direction === 'up') {
+      horizontals[row - 1][column] = true;
+    } else if (direction === 'down') {
+      horizontals[row][column] = true;
     }
-  }
 
-  // Visit that next cell
+    // Visit that next cell
+    recurse(nextRow, nextColumn);
+  }
 };
 
-recurse(1, 1);
+recurse(startRow, startColumn);
