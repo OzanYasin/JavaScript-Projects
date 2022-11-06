@@ -147,3 +147,13 @@ const recurse = (row, column) => {
 };
 
 recurse(startRow, startColumn);
+
+horizontals.forEach((row) => {
+  row.forEacth((open) => {
+    if (open === true) {
+      return;
+    }
+
+    const wall = Bodies.rectangle();
+  });
+});
