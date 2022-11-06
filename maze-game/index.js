@@ -17,7 +17,8 @@ const { World, Engine, Runner, Render, Bodies } = Matter;
 
 const cells = 3;
 const width = 600;
-const height = 600;
+const height = width;
+const unitLength = width / cells;
 
 const engine = Engine.create();
 // So, technically when we create an engine, we get a world object along with it.
@@ -148,12 +149,42 @@ const recurse = (row, column) => {
 
 recurse(startRow, startColumn);
 
-horizontals.forEach((row) => {
-  row.forEacth((open) => {
-    if (open === true) {
+horizontals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
+    if (open) {
       return;
     }
 
-    const wall = Bodies.rectangle();
+    // x coordinate: columnIndex * unitLength + unitLength / 2;
+    // y coordinate: rowIndex * unitLength + unitLength;
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength / 2,
+      rowIndex * unitLength + unitLength,
+      unitLength,
+      5,
+      { isStatic: true }
+    );
+
+    World.add(world, wall);
+  });
+});
+
+verticals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
+    if (open) {
+      return;
+    }
+
+    // x coordinate: rowIndex * unitLength + unitLength;
+    // y coordinate: columnIndex * unitLength + unitLength / 2;
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength,
+      rowIndex * unitLength + unitLength / 2,
+      5,
+      unitLength,
+      { isStatic: true }
+    );
+
+    World.add(world, wall);
   });
 });
