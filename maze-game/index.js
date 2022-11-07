@@ -13,7 +13,7 @@
 // * Render *   Whenever the engine process an update, Render will take a look at all the different shapes and show them on the screen.
 // * Body *     A shape that we are displaying. Can be a circle, rectangle, oval, etc.
 
-const { World, Engine, Runner, Render, Bodies } = Matter;
+const { World, Engine, Runner, Render, Bodies, Body } = Matter;
 
 const cells = 12;
 const width = 600;
@@ -203,7 +203,25 @@ World.add(world, goal);
 
 // Ball
 
-const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4, {
-  isStatic: true,
-});
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4);
 World.add(world, ball);
+
+// https://www.toptal.com/developers/keycode
+document.addEventListener('keydown', (event) => {
+  const { x, y } = ball.velocity;
+  if (event.keyCode === 87) {
+    Body.setVelocity(ball, { x, y: y - 5 });
+  }
+
+  if (event.keyCode === 83) {
+    Body.setVelocity(ball, { x, y: y + 5 });
+  }
+
+  if (event.keyCode === 65) {
+    Body.setVelocity(ball, { x: x - 5, y });
+  }
+
+  if (event.keyCode === 68) {
+    Body.setVelocity(ball, { x: x + 5, y });
+  }
+});
