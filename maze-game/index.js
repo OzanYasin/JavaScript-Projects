@@ -13,14 +13,15 @@
 // * Render *   Whenever the engine process an update, Render will take a look at all the different shapes and show them on the screen.
 // * Body *     A shape that we are displaying. Can be a circle, rectangle, oval, etc.
 
-const { World, Engine, Runner, Render, Bodies, Body } = Matter;
+const { World, Engine, Runner, Render, Bodies, Body, Events } = Matter;
 
-const cells = 12;
+const cells = 3;
 const width = 600;
 const height = width;
 const unitLength = width / cells;
 
 const engine = Engine.create();
+engine.world.gravity.y = 0;
 // So, technically when we create an engine, we get a world object along with it.
 const { world } = engine;
 const render = Render.create({
@@ -196,6 +197,7 @@ const goal = Bodies.rectangle(
   unitLength * 0.6,
   {
     isStatic: true,
+    label: 'goal',
   }
 );
 
@@ -203,7 +205,9 @@ World.add(world, goal);
 
 // Ball
 
-const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4);
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4, {
+  label: 'ball',
+});
 World.add(world, ball);
 
 // https://www.toptal.com/developers/keycode
@@ -224,4 +228,19 @@ document.addEventListener('keydown', (event) => {
   if (event.keyCode === 68) {
     Body.setVelocity(ball, { x: x + 5, y });
   }
+});
+
+// Win Condition
+
+Events.on(engine, 'collisionStart', (event) => {
+  event.pairs.forEach((collision) => {
+    const labels = ['ball', 'goal'];
+
+    if (
+      labels.includes(collision.bodyA.label) &&
+      labels.includes(collision.bodyB.label)
+    ) {
+      console.log('YOU WIN!');
+    }
+  });
 });
