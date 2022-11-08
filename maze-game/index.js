@@ -154,6 +154,8 @@ const recurse = (row, column) => {
 
 recurse(startRow, startColumn);
 
+// Horizontal Wall
+
 horizontals.forEach((row, rowIndex) => {
   row.forEach((open, columnIndex) => {
     if (open) {
@@ -167,12 +169,20 @@ horizontals.forEach((row, rowIndex) => {
       rowIndex * unitLengthY + unitLengthY,
       unitLengthX,
       5,
-      { isStatic: true, label: 'wall' }
+      {
+        isStatic: true,
+        label: 'wall',
+        render: {
+          fillStyle: 'grey',
+        },
+      }
     );
 
     World.add(world, wall);
   });
 });
+
+// Vertical Wall
 
 verticals.forEach((row, rowIndex) => {
   row.forEach((open, columnIndex) => {
@@ -187,7 +197,13 @@ verticals.forEach((row, rowIndex) => {
       rowIndex * unitLengthY + unitLengthY / 2,
       5,
       unitLengthY,
-      { isStatic: true, label: 'wall' }
+      {
+        isStatic: true,
+        label: 'wall',
+        render: {
+          fillStyle: 'grey',
+        },
+      }
     );
 
     World.add(world, wall);
@@ -202,6 +218,7 @@ const goal = Bodies.rectangle(
   {
     isStatic: true,
     label: 'goal',
+    render: { fillStyle: 'green' },
   }
 );
 
