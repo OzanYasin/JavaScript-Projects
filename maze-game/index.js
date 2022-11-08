@@ -163,7 +163,7 @@ horizontals.forEach((row, rowIndex) => {
       rowIndex * unitLength + unitLength,
       unitLength,
       5,
-      { isStatic: true }
+      { isStatic: true, label: 'wall' }
     );
 
     World.add(world, wall);
@@ -183,7 +183,7 @@ verticals.forEach((row, rowIndex) => {
       rowIndex * unitLength + unitLength / 2,
       5,
       unitLength,
-      { isStatic: true }
+      { isStatic: true, label: 'wall' }
     );
 
     World.add(world, wall);
@@ -240,7 +240,12 @@ Events.on(engine, 'collisionStart', (event) => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.label)
     ) {
-      console.log('YOU WIN!');
+      world.gravity.y = 1;
+      world.bodies.forEach((body) => {
+        if (body.label === 'wall') {
+          Body.setStatic(body, false);
+        }
+      });
     }
   });
 });
