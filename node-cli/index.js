@@ -64,10 +64,42 @@ fs.readdir(process.cwd(), (err, filenames) => {
     console.log(err);
   }
 
-  console.log(filenames);
+  // console.log(filenames);
+
+  const allStats = Array(filenames.length).fill(null);
+
+  for (let filename of filenames) {
+    fs.lstat(filename, (err, stats) => {
+      const index = filenames.indexOf(filename);
+      if (err) {
+        console.log(err);
+      }
+      allStats[index] = stats;
+
+      // 'every' function is built into every single array
+      // if we call 'every' we can pass in an  iterator function
+      const ready = allStats.every((stats) => {
+        // We're trying to see if any value inside of allStats is equal to null
+        return stats;
+        // So, if it ever return null, that means that the every statement is going to overall evaluate to false
+      });
+
+      if (ready) {
+        allStats.forEach((stats, index) => {
+          // The reason that we're pulling out the 'index' as an argument is so we can go back into the 'filenames' array and pull out the original 'filename'
+          console.log(filenames[index], stats.isFile());
+        });
+      }
+    });
+    // *!* It is not the ideal way, because if we ever decide to add in some additional async call, or as we start to add in any additional complexity, it gets too confusing
+  }
 });
 
 // 1) Create package.json file with 'bin' section
 // 2) Change index.js file permissions // chmod +x index.js
 // 3) Add comment to index.js file to allow it to be treated like an executable // !#/usr/bin/env node
 // 4) Link our project
+
+// fs.lstat(path[, options], callback)
+// lstat is used to get some information about one single file or folder at a time
+// we can use stats object to determine whether or not the given thing is a file or folder
