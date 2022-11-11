@@ -1,6 +1,6 @@
 const message = require('./myScript');
 
-console.log(message);
+// console.log(message);
 
 // !! Node Arguments !!
 
@@ -14,4 +14,5 @@ console.log(message);
 
 // __dirname - Full path of this file
 
-console.log(arguments);
+// console.log(arguments);
+console.log(require.cache);
