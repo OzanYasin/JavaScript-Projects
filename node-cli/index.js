@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+// ** Here is some notes about basics of NodeJS
+
 // !! Node Arguments !!
 
 // exports - Equivalent to 'module.exports'. We can technically export code using this, but it is easier to use 'module.exports' because of a little corner case.
@@ -13,16 +17,16 @@
 // console.log(arguments);
 // console.log(require.cache);
 
-const counterObject = require('./myScript');
+// const counterObject = require('./myScript');
 
-console.log(counterObject.getCounter()); // 0
-counterObject.incrementCounter();
-console.log(counterObject.getCounter()); // 0 1
+// console.log(counterObject.getCounter()); // 0
+// counterObject.incrementCounter();
+// console.log(counterObject.getCounter()); // 0 1
 
-const newCounterObject = require('./myScript');
+// const newCounterObject = require('./myScript');
 
-// It's going to invoke getCounter function from the require cache, not from the myScript.js as first time it requires.
-console.log(newCounterObject.getCounter()); // 0 1 1
+// // It's going to invoke getCounter function from the require cache, not from the myScript.js as first time it requires.
+// console.log(newCounterObject.getCounter()); // 0 1 1
 
 //  !! Debugging NodeJS !!
 
@@ -42,3 +46,28 @@ console.log(newCounterObject.getCounter()); // 0 1 1
 // s -> Step in to a function
 // o -> Step out of the current function
 // repl -> Start up an execution environment where we can reference the different variables inside of our program.
+
+// ----------------------------------------------
+// *** HERE IS WHERE THE NODE CLI PROJECT STARTS ***
+// https://nodejs.org/api/fs.html#fsreaddirpath-options-callback
+
+const fs = require('fs');
+
+// fs.readdir(path[, options], callback)
+fs.readdir(process.cwd(), (err, filenames) => {
+  // EITHER
+  // err === an error object
+  // OR
+  // err === null, which means everything is OK
+
+  if (err) {
+    console.log(err);
+  }
+
+  console.log(filenames);
+});
+
+// 1) Create package.json file with 'bin' section
+// 2) Change index.js file permissions // chmod +x index.js
+// 3) Add comment to index.js file to allow it to be treated like an executable // !#/usr/bin/env node
+// 4) Link our project
