@@ -52,46 +52,41 @@
 // https://nodejs.org/api/fs.html#fsreaddirpath-options-callback
 
 const fs = require('fs');
+const { resolve } = require('path');
 
-// fs.readdir(path[, options], callback)
-fs.readdir(process.cwd(), (err, filenames) => {
-  // EITHER
-  // err === an error object
-  // OR
-  // err === null, which means everything is OK
+// Method #1
+// const lstat = (filename) => {
+//   return new Promise((resolve, reject) => {
+//     fs.lstat(filename, (err, stats) => {
+//       if (err) {
+//         reject(err);
+//       }
 
+//       resolve(stats);
+//     });
+//   });
+// };
+
+// // Method #2
+// const util = require('util');
+// const lstat = util.promisify(fs.lstat);
+
+// Method #3
+const { lstat } = fs.promises;
+
+fs.readdir(process.cwd(), async (err, filenames) => {
   if (err) {
     console.log(err);
   }
 
-  // console.log(filenames);
-
-  const allStats = Array(filenames.length).fill(null);
-
   for (let filename of filenames) {
-    fs.lstat(filename, (err, stats) => {
-      const index = filenames.indexOf(filename);
-      if (err) {
-        console.log(err);
-      }
-      allStats[index] = stats;
+    try {
+      const stats = await lstat(filename);
 
-      // 'every' function is built into every single array
-      // if we call 'every' we can pass in an  iterator function
-      const ready = allStats.every((stats) => {
-        // We're trying to see if any value inside of allStats is equal to null
-        return stats;
-        // So, if it ever return null, that means that the every statement is going to overall evaluate to false
-      });
-
-      if (ready) {
-        allStats.forEach((stats, index) => {
-          // The reason that we're pulling out the 'index' as an argument is so we can go back into the 'filenames' array and pull out the original 'filename'
-          console.log(filenames[index], stats.isFile());
-        });
-      }
-    });
-    // *!* It is not the ideal way, because if we ever decide to add in some additional async call, or as we start to add in any additional complexity, it gets too confusing
+      console.log(filename, stats.isFile());
+    } catch (error) {
+      console.log(err);
+    }
   }
 });
 
