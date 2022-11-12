@@ -145,14 +145,18 @@ const fs = require('fs');
 // We need to use one of the methods of promised lstat variable
 
 const { lstat } = fs.promises;
+const path = require('path');
 
-fs.readdir(process.cwd(), async (err, filenames) => {
+const targetDir = process.argv[2] || process.cwd();
+
+fs.readdir(targetDir, async (err, filenames) => {
   if (err) {
     console.log(err);
   }
 
   const statsPromise = filenames.map((filename) => {
-    return lstat(filename);
+    // path.join() going to look whatever folder we're trying to find and append on the file name to the very end
+    return lstat(path.join(targetDir, filename));
   });
 
   // By using Promise.all(), all these different operations is processing in parallel, which means we should get way better performance any time that we try to run the stats operation on many different files at the same time.
@@ -161,6 +165,14 @@ fs.readdir(process.cwd(), async (err, filenames) => {
   for (let stats of allStats) {
     const index = allStats.indexOf(stats);
 
-    console.log(filenames[index], stats.isFile());
+    if (stats.isFile()) {
+      console.log(chalk.dim(filenames[index]));
+    } else {
+      console.log(chalk.bold(filenames[index]));
+    }
   }
 });
+
+// https://www.npmjs.com/package/chalk
+
+const chalk = require('chalk');
