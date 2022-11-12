@@ -63,6 +63,7 @@
 const fs = require('fs');
 
 // !! Naive Solution !!
+
 // fs.readdir(process.cwd(), (err, filenames) => {
 //   if (err) {
 //     console.log(err);
@@ -97,7 +98,10 @@ const fs = require('fs');
 //   }
 // });
 
+// ---------------------------------------------------
+
 // !! Async Solution !!
+
 // Method #1
 // const lstat = (filename) => {
 //   return new Promise((resolve, reject) => {
@@ -134,4 +138,29 @@ const fs = require('fs');
 //   }
 // });
 
-// !! Proper Way to Better Performed Async Solution !!
+// ---------------------------------------------------
+
+// !! Good Solution (Proper Way to Better Performed Async Solution) !!
+
+// We need to use one of the methods of promised lstat variable
+
+const { lstat } = fs.promises;
+
+fs.readdir(process.cwd(), async (err, filenames) => {
+  if (err) {
+    console.log(err);
+  }
+
+  const statsPromise = filenames.map((filename) => {
+    return lstat(filename);
+  });
+
+  // By using Promise.all(), all these different operations is processing in parallel, which means we should get way better performance any time that we try to run the stats operation on many different files at the same time.
+  const allStats = await Promise.all(statsPromise);
+
+  for (let stats of allStats) {
+    const index = allStats.indexOf(stats);
+
+    console.log(filenames[index], stats.isFile());
+  }
+});
