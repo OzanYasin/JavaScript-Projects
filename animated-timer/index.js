@@ -8,15 +8,13 @@ const perimeter = circle.getAttribute('r') * 2 * Math.PI;
 circle.setAttribute('stroke-dasharray', perimeter);
 
 let duration;
-
-// offset = (perimeter * timeRemaining) / totalDuration - perimeter
-
 const timer = new Timer(durationInput, startButton, pauseButton, {
   // We're going to eventually take a look at those callbacks and we're going to add in some code draw the border, to update the border, and eventually reset it as well.
   onStart(totalDuration) {
     duration = totalDuration;
   },
   onTick(timeRemaining) {
+    // offset = (perimeter * timeRemaining) / totalDuration - perimeter
     circle.setAttribute(
       'stroke-dashoffset',
       (perimeter * timeRemaining) / duration - perimeter
