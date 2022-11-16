@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// ----------------------------------------------
+
 // ** Here is some notes about basics of NodeJS
 
 // !! Node Arguments !!
@@ -48,7 +50,7 @@
 // repl -> Start up an execution environment where we can reference the different variables inside of our program.
 
 // ----------------------------------------------
-// *** HERE IS WHERE THE NODE CLI PROJECT STARTS ***
+// *** THE NODE CLI PROJECT STARTS ***
 // https://nodejs.org/api/fs.html#fsreaddirpath-options-callback
 
 // 1) Create package.json file with 'bin' section
@@ -146,6 +148,8 @@ const fs = require('fs');
 
 const { lstat } = fs.promises;
 const path = require('path');
+// https://www.npmjs.com/package/chalk
+const chalk = require('chalk');
 
 const targetDir = process.argv[2] || process.cwd();
 
@@ -172,7 +176,3 @@ fs.readdir(targetDir, async (err, filenames) => {
     }
   }
 });
-
-// https://www.npmjs.com/package/chalk
-
-const chalk = require('chalk');
