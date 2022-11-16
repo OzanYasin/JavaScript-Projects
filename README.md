@@ -10,4 +10,4 @@ Under this repo, I do store various JavaScript projects of mine.
 
 - Maze Game App - [Code](https://github.com/OzanYasin/JavaScript-Projects/tree/master/maze-game) / [Live](https://maze-game-app-ozan.netlify.app)
 
-- Node CLI App - [Code](https://github.com/OzanYasin/JavaScript-Projects/tree/master/node-cli)
+- Node CLI App - [Code](https://github.com/OzanYasin/JavaScript-Projects/tree/master/node-cli) / *To run command read the instructor*
