@@ -15,4 +15,20 @@
 // 2) It would be nice to provide some help to users of our CLI tool,
 // 3) Need to figure out how to execute some JS code from within a JS program.
 
-console.log('hello');
+// !! Solutions: !!
+// 1) Use a package called 'chokidar' to detect file changes,
+// 2) Use a package called 'caporal' to build our CLI tool,
+// 3) Use the standard library module 'child_process' to execute program
+
+// http://nodejs.org/api
+// https://nodejs.org/api/child_process.html
+
+// Chokidar -> https://www.npmjs.com/package/chokidar
+
+const chokidar = require('chokidar');
+
+chokidar
+  .watch('.')
+  .on('add', () => console.log('FILE ADDED'))
+  .on('change', () => console.log('FILE CHANGED'))
+  .on('unlink', () => console.log('FILE UNLINKED '));
