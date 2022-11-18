@@ -23,11 +23,11 @@
 // http://nodejs.org/api
 // https://nodejs.org/api/child_process.html
 
-// Chokidar -> https://www.npmjs.com/package/chokidar
-
-const debounce = require('lodash.debounce');
-const chokidar = require('chokidar');
-const program = require('caporal');
+const debounce = require('lodash.debounce'); // https://lodash.com/docs/4.17.15#debounce
+const chokidar = require('chokidar'); // https://www.npmjs.com/package/chokidar
+const program = require('caporal'); // https://caporal.io/guide/
+const fs = require('fs');
+const { access } = fs.promises;
 
 // - Angle brackets "<name>" means you need to provide that value.
 // - Square brackets "[name]" means that value is optional.
@@ -35,21 +35,28 @@ const program = require('caporal');
 program
   .version('1.0.0')
   .argument('[filename]', 'Name of a file to execute')
-  .action((args) => {
-    console.log(args);
+  .action(async ({ filename }) => {
+    const name = filename || 'index.js';
+    // We can you fs.access to check and see weather or not a file exist on the hard drive.
+    // Default behavior just to check if the file event exist.
+    try {
+      await access(name);
+    } catch (err) {
+      throw new Error(`Could not find the file ${name}`);
+    }
+
+    const start = debounce(() => {
+      console.log('STARTING USERS PROGRAM');
+    }, 100);
+
+    chokidar
+      .watch('.')
+      .on('add', start)
+      .on('change', start)
+      .on('unlink', start);
   });
 
 program.parse(process.argv);
-
-// const start = debounce(() => {
-//   console.log('STARTING USERS PROGRAM');
-// }, 100);
-
-// chokidar
-//   .watch('.')
-//   .on('add', start)
-//   .on('change', () => console.log('FILE CHANGED'))
-//   .on('unlink', () => console.log('FILE UNLINKED '));
 
 // watchit --help
 // OR

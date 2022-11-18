@@ -62,8 +62,6 @@
 // lstat is used to get some information about one single file or folder at a time
 // we can use stats object to determine whether or not the given thing is a file or folder
 
-const fs = require('fs');
-
 // !! Naive Solution !!
 
 // fs.readdir(process.cwd(), (err, filenames) => {
@@ -146,10 +144,10 @@ const fs = require('fs');
 
 // We need to use one of the methods of promised lstat variable
 
+const fs = require('fs');
 const { lstat } = fs.promises;
 const path = require('path');
-// https://www.npmjs.com/package/chalk
-const chalk = require('chalk');
+const chalk = require('chalk'); // https://www.npmjs.com/package/chalk
 
 const targetDir = process.argv[2] || process.cwd();
 
