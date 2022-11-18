@@ -28,6 +28,7 @@ const chokidar = require('chokidar'); // https://www.npmjs.com/package/chokidar
 const program = require('caporal'); // https://caporal.io/guide/
 const fs = require('fs');
 const { access } = fs.promises;
+const { spawn } = require('child_process');
 
 // - Angle brackets "<name>" means you need to provide that value.
 // - Square brackets "[name]" means that value is optional.
@@ -46,7 +47,10 @@ program
     }
 
     const start = debounce(() => {
-      console.log('STARTING USERS PROGRAM');
+      // The child_process.spawn() method spawns a new process using the given command, with command-line arguments in args. If omitted, args defaults to an empty array.
+      spawn('node', [name], { stdio: 'inherit' });
+      // 'standard in/out inherit' says that whenever we create this child process, whatever logs, errors, or whatever else get emitted, take that information and pass it through to our programs console log
+      // If we remove <stdio: 'inherit'> option we can not see any logs on terminal because we are no longer forwarding that output information back over to our terminal.
     }, 100);
 
     chokidar
