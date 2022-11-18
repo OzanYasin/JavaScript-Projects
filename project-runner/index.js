@@ -25,10 +25,33 @@
 
 // Chokidar -> https://www.npmjs.com/package/chokidar
 
+const debounce = require('lodash.debounce');
 const chokidar = require('chokidar');
+const program = require('caporal');
 
-chokidar
-  .watch('.')
-  .on('add', () => console.log('FILE ADDED'))
-  .on('change', () => console.log('FILE CHANGED'))
-  .on('unlink', () => console.log('FILE UNLINKED '));
+// - Angle brackets "<name>" means you need to provide that value.
+// - Square brackets "[name]" means that value is optional.
+
+program
+  .version('1.0.0')
+  .argument('[filename]', 'Name of a file to execute')
+  .action((args) => {
+    console.log(args);
+  });
+
+program.parse(process.argv);
+
+// const start = debounce(() => {
+//   console.log('STARTING USERS PROGRAM');
+// }, 100);
+
+// chokidar
+//   .watch('.')
+//   .on('add', start)
+//   .on('change', () => console.log('FILE CHANGED'))
+//   .on('unlink', () => console.log('FILE UNLINKED '));
+
+// watchit --help
+// OR
+// watch -h
+// will show a manual documentation for watchit command
