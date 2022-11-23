@@ -1,6 +1,6 @@
 # JavaScript-Projects
 
-Under this repo, I do store various JavaScript projects of mine.
+Under this repository, I do store various JavaScript projects of mine.
 
 ## Projects
 
